@@ -134,3 +134,7 @@ fileInput.addEventListener("change", async function (event) {
     resultEl.textContent = "QR-код на картинке не найден";
   }
 });
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
