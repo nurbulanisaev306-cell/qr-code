@@ -18,7 +18,6 @@ let scanning = false;
 statusEl.textContent = "JavaScript работает корректно.";
 console.log("Web environment check completed.");
 
-// ---------- Вкладки ----------
 function showGenerator() {
   genPanel.hidden = false;
   scanPanel.hidden = true;
@@ -37,7 +36,6 @@ function showScanner() {
 tabGen.addEventListener("click", showGenerator);
 tabScan.addEventListener("click", showScanner);
 
-// ---------- Генератор ----------
 genBtn.addEventListener("click", function () {
   const text = textInput.value.trim();
   if (text === "") {
@@ -68,7 +66,6 @@ downloadBtn.addEventListener("click", function () {
   link.click();
 });
 
-// ---------- Сканер ----------
 function getScanner() {
   if (typeof Html5Qrcode === "undefined") {
     throw new Error("Библиотека html5-qrcode не загрузилась");
@@ -80,7 +77,15 @@ function getScanner() {
 }
 
 function showResult(text) {
-  resultEl.textContent = text;
+  const value = text.trim();
+  if (/^https?:\/\//i.test(value)) {
+    resultEl.textContent = "Открываю ссылку: " + value;
+    setTimeout(function () {
+      window.location.href = value;
+    }, 1500);
+  } else {
+    resultEl.textContent = value;
+  }
 }
 
 async function stopCamera() {
@@ -103,15 +108,15 @@ startBtn.addEventListener("click", async function () {
       { facingMode: "environment" },
       { fps: 10, qrbox: 220 },
       function (decodedText) {
-        showResult(decodedText);
         stopCamera();
+        showResult(decodedText);
       }
     );
     scanning = true;
     startBtn.hidden = true;
     stopBtn.hidden = false;
   } catch (e) {
-    showResult("Не удалось включить камеру: " + e);
+    resultEl.textContent = "Не удалось включить камеру: " + e;
   }
 });
 
@@ -126,6 +131,6 @@ fileInput.addEventListener("change", async function (event) {
     const text = await getScanner().scanFile(file, false);
     showResult(text);
   } catch (e) {
-    showResult("QR-код на картинке не найден");
+    resultEl.textContent = "QR-код на картинке не найден";
   }
 });
