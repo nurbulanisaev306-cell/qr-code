@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR: генератор и сканер</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <h1>QR-коды</h1>
+
+    <div class="tabs">
+      <button id="tabGen" class="active">Генератор</button>
+      <button id="tabScan">Сканер</button>
+    </div>
+
+    <section id="genPanel">
+      <input id="text" type="text" placeholder="Текст или ссылка">
+      <button id="genBtn">Создать QR</button>
+      <div id="qr"></div>
+      <button id="downloadBtn" hidden>Скачать PNG</button>
+    </section>
+
+    <section id="scanPanel" hidden>
+      <div id="reader"></div>
+      <button id="startBtn">Включить камеру</button>
+      <button id="stopBtn" hidden>Выключить камеру</button>
+      <label class="file">
+        Или загрузить картинку с QR
+        <input id="fileInput" type="file" accept="image/*">
+      </label>
+      <p id="result">Результат появится здесь</p>
+    </section>
+
+    <p id="status">Проверка JavaScript...</p>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
